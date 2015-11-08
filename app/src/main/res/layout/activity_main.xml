@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" tools:context=".MainActivity">
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lineButton">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="33"
+            android:text="Android"
+            android:id="@+id/buttonAndroid"
+            android:drawableRight="@drawable/android_ico"
+            android:onClick="showAndroid"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="33"
+            android:text="Apple"
+            android:id="@+id/buttonApple"
+            android:drawableRight="@drawable/apple_ico"
+            android:onClick="showApple"
+            android:enabled="true" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="33"
+            android:text="Windows"
+            android:id="@+id/buttonWindows"
+            android:drawableRight="@drawable/windows_ico"
+            android:onClick="showWindows"
+            android:enabled="true" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lineFullScreen"
+        android:layout_below="@+id/lineButton">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="50"
+            android:text="FullScreen"
+            android:id="@+id/buttonFullScreen"
+            android:onClick="showInFullScreen"
+            android:enabled="true" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="50"
+            android:text="photo"
+            android:id="@+id/buttonPhoto"
+            android:onClick="takePhoto"
+            />
+    </LinearLayout>
+
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/image"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentStart="false"
+        android:layout_below="@+id/lineFullScreen"
+        android:src="@drawable/android" />
+
+
+</RelativeLayout>
