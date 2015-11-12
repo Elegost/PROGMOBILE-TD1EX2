@@ -36,10 +36,9 @@ public class MainActivity extends AppCompatActivity
     private Button buttonApple;
     private Button buttonWindows;
     private ImageView img;
-    private Bitmap bmp;
-    private Button buttonPhoto;
-    private Bitmap bitMap;
-    private static int TAKE_PICTURE = 1;
+    private File photoFile;
+    private Bitmap photoBmp;
+    private static int TAKENPHOTO = 1;
 
 
     @Override
@@ -50,7 +49,6 @@ public class MainActivity extends AppCompatActivity
         buttonApple = (Button) findViewById(R.id.buttonApple);
         buttonWindows = (Button) findViewById(R.id.buttonWindows);
         img = (ImageView) findViewById(R.id.image);
-        buttonPhoto = (Button) findViewById(R.id.buttonPhoto);
     }
 
     //Affiche l'image android
@@ -120,22 +118,38 @@ public class MainActivity extends AppCompatActivity
     //Dois activer l'activité permettant de prendre en photo mais je n'ai pas pu tester cette partie
     public void takePhoto(View view)
     {
-        // create intent with ACTION_IMAGE_CAPTURE action
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // start camera activity
-        startActivityForResult(intent, TAKE_PICTURE);
+        File photoStorage = getExternalFilesDir(Environment.DIRECTORY_PICTURES); //on va chercher endroit de stockage externe
+        photoFile = new File(photoStorage,  "imgTemp.jpg"); //Création du fichier temporaire dans lequelle on mettra la photo
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE); //intent qui va servir a prendre une photo
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile)); //on insere le chemin du fichier dans l'intent
+        if (intent.resolveActivity(getPackageManager()) != null) { //Vérification du fait qu'il y est bien une activité de prise de photo
+            startActivityForResult(intent, TAKENPHOTO); //Lancement de l'activité de prise de photo
+        }
     }
 
     //Dois recuperer le resultat de l'activité ayant pris une photo et l'afficher sur l'imageView
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-
-        if (requestCode == TAKE_PICTURE && resultCode== RESULT_OK && intent != null){
-            // get bundle
-            Bundle extras = intent.getExtras();
-            // get bitmap
-            bitMap = (Bitmap) extras.get("data");
-            img.setImageBitmap(bitMap);
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent)
+    {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (requestCode == TAKENPHOTO) //si une photo a été prise
+        {
+            try
+            {
+                photoBmp = (Bitmap) intent.getExtras().get("data"); //on récupere le bitmap
+            }
+            catch(NullPointerException ex)
+            {
+                photoBmp = BitmapFactory.decodeFile(photoFile.getAbsolutePath()); //on décode le bitmap
+            }
+            if(photoBmp != null)
+            {
+                img.setImageBitmap(photoBmp); //ON applique le bitmap sur l'ImageView
+            }
+            else
+            {
+                Toast.makeText(this, "Image introuvable", Toast.LENGTH_LONG).show();
+            }
         }
     }
 }
