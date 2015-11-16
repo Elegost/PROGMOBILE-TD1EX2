@@ -105,16 +105,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public static void addImageToGallery(final String filePath, final Context context)
-    {
-        ContentValues values = new ContentValues();
-        values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
-        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-        values.put(MediaStore.MediaColumns.DATA, filePath);
-        context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-    }
-
-
     //Dois activer l'activité permettant de prendre en photo mais je n'ai pas pu tester cette partie
     public void takePhoto(View view)
     {
